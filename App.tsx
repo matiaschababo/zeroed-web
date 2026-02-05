@@ -12,8 +12,10 @@ import { Lab } from './pages/Lab';
 import { Initiate } from './pages/Initiate';
 import { Preloader } from './components/Preloader';
 import { SEO } from './components/SEO';
+import { useTranslation } from 'react-i18next';
 
 const App: React.FC = () => {
+  const { t } = useTranslation();
   const [page, setPage] = useState<Page>(Page.HOME);
   const [loading, setLoading] = useState(true); // Default to true for boot sequence
   const { scrollYProgress } = useScroll();
@@ -121,12 +123,12 @@ const App: React.FC = () => {
           <div className="container mx-auto px-6 md:px-12 flex flex-col gap-12">
             <div className="flex justify-between items-end">
               <div className="text-zinc-500 font-mono text-xs max-w-xs">
-                <p className="mb-4 text-white">SYSTEM STATUS: <span className="text-[#FF5F00]">OPERATIONAL</span></p>
-                <p>Deploying tactical growth solutions for high-risk verticals since 2024.</p>
+                <p className="mb-4 text-white">{t('system_status')} <span className="text-[#FF5F00]">OPERATIONAL</span></p>
+                <p>{t('deploying_solutions')}</p>
               </div>
               <div className="text-right text-[10px] text-zinc-600 font-mono uppercase tracking-widest hidden md:block">
-                <p>Zeroed Systems &copy; 2025</p>
-                <p>Loc: AR / GLOBAL</p>
+                <p>{t('copyright')}</p>
+                <p>{t('location')}</p>
               </div>
             </div>
 
@@ -138,8 +140,8 @@ const App: React.FC = () => {
             </div>
 
             {/* Mobile Footer Info */}
-            <div className="md:hidden text-center text-[10px] text-zinc-600 font-mono uppercase tracking-widest">
-              Zeroed Systems &copy; 2025
+            <div className="md:hidden text-center text-[10px] text-zinc-600 font-mono uppercase tracking-widest flex flex-col items-center gap-4">
+              <p>{t('copyright')}</p>
             </div>
           </div>
         </footer>

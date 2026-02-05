@@ -38,6 +38,22 @@ export const SEO: React.FC<SEOProps> = ({
             <meta name="twitter:title" content={siteTitle} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={image} />
+
+            {/* Structured Data (JSON-LD) */}
+            <script type="application/ld+json">
+                {JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Organization",
+                    "name": "Zeroed Growth",
+                    "url": "https://zeroedgrowth.com",
+                    "logo": "https://zeroedgrowth.com/og-image.png",
+                    "description": "High-end ultra-precision growth agency. We deploy tactical digital strategies for high-risk verticals.",
+                    "sameAs": [
+                        "https://twitter.com/zeroedgrowth",
+                        "https://instagram.com/zeroedgrowth"
+                    ]
+                })}
+            </script>
         </Helmet>
     );
 };
