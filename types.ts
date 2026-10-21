@@ -17,12 +17,18 @@ export interface CaseStudy {
   client: string;
   tag: string;
   result: string;
-  image: string;
+  bottleneck: string;
+  solution: string;
+  metrics: string[];
+  category: string;
+  status: 'AUDITED' | 'ONGOING' | 'SCALED';
+  quarter: string;
 }
 
 export interface Service {
   id: string;
   title: string;
+  subtitle: string;
   description: string;
-  icon: 'youtube' | 'target' | 'database';
+  deliverables: string[];
 }

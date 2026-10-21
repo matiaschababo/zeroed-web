@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
-import { HelmetProvider } from 'react-helmet-async';
 import { Page } from './types';
 import { GridBackground } from './components/GridBackground';
 import { SniperCursor } from './components/SniperCursor';
@@ -14,10 +13,30 @@ import { Preloader } from './components/Preloader';
 import { SEO } from './components/SEO';
 import { useTranslation } from 'react-i18next';
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const { t } = useTranslation();
-  const [page, setPage] = useState<Page>(Page.HOME);
-  const [loading, setLoading] = useState(true); // Default to true for boot sequence
+
+  // Helper to resolve route from pathname
+  const getPageFromPath = (): Page => {
+    if (typeof window === 'undefined') return Page.HOME;
+    const path = window.location.pathname.toLowerCase().replace(/^\/+|\/+$/g, '');
+    switch (path) {
+      case 'ops':
+        return Page.OPS;
+      case 'logs':
+        return Page.LOGS;
+      case 'lab':
+        return Page.LAB;
+      case 'initiate':
+        return Page.INITIATE;
+      default:
+        return Page.HOME;
+    }
+  };
+
+  const [page, setPage] = useState<Page>(getPageFromPath());
+  const [loading, setLoading] = useState(false);
+
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -25,14 +44,41 @@ const App: React.FC = () => {
     restDelta: 0.001
   });
 
-  // Optional: Prevent native scroll while loading (standard CSS, no external lib)
+  // Client-side initialization: preloader and popstate URL listener
   useEffect(() => {
-    if (loading) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+    // Only show preloader on first session visit in browser
+    if (typeof window !== 'undefined') {
+      try {
+        const booted = sessionStorage.getItem('zeroed_booted');
+        if (!booted) {
+          setLoading(true);
+        }
+      } catch {
+        // storage disabled or unavailable
+      }
+
+      const handlePopState = () => {
+        setPage(getPageFromPath());
+      };
+
+      window.addEventListener('popstate', handlePopState);
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+      };
     }
-  }, [loading]);
+  }, []);
+
+  // Synchronized page navigation
+  const navigateTo = (newPage: Page) => {
+    setPage(newPage);
+    if (typeof window !== 'undefined') {
+      const targetPath = newPage === Page.HOME ? '/' : `/${newPage.toLowerCase()}`;
+      if (window.location.pathname !== targetPath) {
+        window.history.pushState({ page: newPage }, '', targetPath);
+      }
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  };
 
   const renderPage = () => {
     switch (page) {
@@ -40,34 +86,50 @@ const App: React.FC = () => {
         return (
           <>
             <SEO />
-            <Home setPage={setPage} />
+            <Home setPage={navigateTo} />
           </>
         );
       case Page.OPS:
         return (
           <>
-            <SEO title="Operations" description="Our tactical operations and service offerings." url="https://zeroedgrowth.com/ops" />
-            <Ops />
+            <SEO
+              title="Operaciones Tácticas"
+              description="Unidades de YouTube Visual Ops, Guerra Pagada, Infraestructura de Datos y Fractional CMO."
+              url="https://zeroedgrowth.com/ops"
+            />
+            <Ops setPage={navigateTo} />
           </>
         );
       case Page.LOGS:
         return (
           <>
-            <SEO title="Logs" description="Mission logs and case studies of deployed strategies." url="https://zeroedgrowth.com/logs" />
-            <Logs />
+            <SEO
+              title="Expedientes de Misión"
+              description="Casos de estudio y métricas auditadas en Betbits Casino, Delfi Aused, Coinary y Mix On TV."
+              url="https://zeroedgrowth.com/logs"
+            />
+            <Logs setPage={navigateTo} />
           </>
         );
       case Page.LAB:
         return (
           <>
-            <SEO title="The Lab" description="Experimental R&D division. Testing grounds for next-gen growth vectors." url="https://zeroedgrowth.com/lab" />
-            <Lab />
+            <SEO
+              title="División de I+D"
+              description="Tecnología propietaria: Zeroed Attribution Bridge v2.0 y Algorithmic Retention Lab."
+              url="https://zeroedgrowth.com/lab"
+            />
+            <Lab setPage={navigateTo} />
           </>
         );
       case Page.INITIATE:
         return (
           <>
-            <SEO title="Initiate Procedure" description="Begin the onboarding protocol. Contact Zeroed Systems." url="https://zeroedgrowth.com/initiate" />
+            <SEO
+              title="Iniciar Protocolo"
+              description="Solicitud de auditoría y onboarding para marcas de alto riesgo y creadores de gran escala."
+              url="https://zeroedgrowth.com/initiate"
+            />
             <Initiate />
           </>
         );
@@ -75,78 +137,99 @@ const App: React.FC = () => {
         return (
           <>
             <SEO />
-            <Home setPage={setPage} />
+            <Home setPage={navigateTo} />
           </>
         );
     }
   };
 
   return (
-    <HelmetProvider>
-      {/* Cinematic Preloader */}
+    <>
+      {/* Cinematic Fast Preloader for first visit */}
       <AnimatePresence mode="wait">
         {loading && (
           <Preloader onComplete={() => setLoading(false)} />
         )}
       </AnimatePresence>
 
-      <div className="min-h-screen text-white font-sans selection:bg-[#FF5F00] selection:text-black bg-[#050505] flex flex-col">
+      <div className="min-h-[100dvh] text-white font-sans selection:bg-[#FF5F00] selection:text-black bg-[#050505] flex flex-col relative">
         {/* Scroll Progress Bar */}
         <motion.div
-          className="fixed top-0 left-0 right-0 h-1 bg-[#FF5F00] origin-left z-50"
+          className="fixed top-0 left-0 right-0 h-1 bg-[#FF5F00] origin-left z-50 pointer-events-none"
           style={{ scaleX }}
         />
 
-        {/* Persistent Elements */}
+        {/* Tactical UI Layers */}
         <GridBackground />
         <SniperCursor />
-        <Header activePage={page} setPage={setPage} />
+        <Header activePage={page} setPage={navigateTo} />
 
-        {/* Page Content with Transition */}
+        {/* Main Content Area */}
         <main className="relative z-10 flex-grow flex flex-col">
           <AnimatePresence mode="wait">
             <motion.div
               key={page}
-              initial={{ opacity: 0, y: 10, filter: 'blur(5px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: -10, filter: 'blur(5px)' }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="flex-grow"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="flex-grow flex flex-col"
             >
               {renderPage()}
             </motion.div>
           </AnimatePresence>
         </main>
 
-        {/* Massive Brand Footer */}
-        <footer className="relative z-10 w-full bg-[#050505] pt-20 pb-6 overflow-hidden border-t border-white/5">
-          <div className="container mx-auto px-6 md:px-12 flex flex-col gap-12">
-            <div className="flex justify-between items-end">
-              <div className="text-zinc-500 font-mono text-xs max-w-xs">
-                <p className="mb-4 text-white">{t('system_status')} <span className="text-[#FF5F00]">OPERATIONAL</span></p>
+        {/* Industrial Brutalist Brand Footer */}
+        <footer className="relative z-10 w-full bg-[#050505] pt-20 pb-12">
+          <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col gap-10">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
+              <div className="text-zinc-500 text-xs max-w-sm space-y-2">
+                <p className="text-white font-bold flex items-center gap-2">
+                  <span className="w-2 h-2 bg-[#FF5F00]"></span>
+                  <span>{t('system_status')}</span>
+                </p>
                 <p>{t('deploying_solutions')}</p>
               </div>
-              <div className="text-right text-[10px] text-zinc-600 font-mono uppercase tracking-widest hidden md:block">
+              <div className="text-left sm:text-right text-xs text-zinc-600">
                 <p>{t('copyright')}</p>
                 <p>{t('location')}</p>
               </div>
             </div>
 
-            {/* Giant Footer Logo */}
-            <div className="w-full select-none leading-none">
-              <h1 className="text-[18vw] font-black font-['Space_Grotesk'] text-[#111] text-center tracking-tighter leading-none mix-blend-difference">
+            {/* Giant Monolithic Wordmark */}
+            <div className="w-full select-none leading-none overflow-hidden py-4">
+              <h2 className="text-[18vw] font-black font-['Space_Grotesk'] text-[#111111] text-center tracking-tighter leading-none hover:text-[#181818] transition-colors duration-300">
                 ZEROED
-              </h1>
+              </h2>
             </div>
 
-            {/* Mobile Footer Info */}
-            <div className="md:hidden text-center text-[10px] text-zinc-600 font-mono uppercase tracking-widest flex flex-col items-center gap-4">
-              <p>{t('copyright')}</p>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 text-xs text-zinc-600">
+              <p>PRECISION OVER NOISE // ALL RIGHTS RESERVED</p>
+              <div className="flex gap-6">
+                <button onClick={() => navigateTo(Page.OPS)} className="hover:text-white transition-colors cursor-pointer">
+                  OPS
+                </button>
+                <button onClick={() => navigateTo(Page.LOGS)} className="hover:text-white transition-colors cursor-pointer">
+                  DOSSIERS
+                </button>
+                <button onClick={() => navigateTo(Page.LAB)} className="hover:text-white transition-colors cursor-pointer">
+                  R&D LAB
+                </button>
+                <button onClick={() => navigateTo(Page.INITIATE)} className="hover:text-[#FF5F00] transition-colors cursor-pointer">
+                  INITIATE
+                </button>
+              </div>
             </div>
+
+            {/* Visuals Attribution Credits */}
+            <p className="text-[11px] text-zinc-700 text-center sm:text-left pt-2">
+              Visuals: NASA Launch Vehicle Telemetry Center (CC0 via Rawpixel) & Satellite Configuration (Public Domain via Wikimedia Commons).
+            </p>
           </div>
         </footer>
       </div>
-    </HelmetProvider>
+    </>
   );
 };
 

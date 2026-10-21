@@ -1,96 +1,233 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { CaseStudy } from '../types';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Page, CaseStudy } from '../types';
 import { useTranslation } from 'react-i18next';
+import { ChevronDown, ChevronUp, ShieldCheck } from 'lucide-react';
 
-const cases: CaseStudy[] = [
-  { id: "01", client: "DELFI AUSED", tag: "YouTube Management", result: "Audience Retention", image: "https://picsum.photos/800/400?grayscale&random=1" },
-  { id: "02", client: "COINARY LTD", tag: "Growth at Scale", result: "Subscriber Growth", image: "https://picsum.photos/800/400?grayscale&random=2" },
-  { id: "03", client: "BETBITS CASINO", tag: "Ads Performance", result: "ROI Maximization", image: "https://picsum.photos/800/400?grayscale&random=3" },
-  { id: "04", client: "MIX ON TV", tag: "Streaming Infra", result: "Live Event Production", image: "https://picsum.photos/800/400?grayscale&random=4" },
+interface LogsProps {
+  setPage: (page: Page) => void;
+}
+
+const verifiedCases: CaseStudy[] = [
+  {
+    id: "LOG_01",
+    client: "BETBITS CASINO",
+    category: "iGaming / High-Friction Ad Acquisition",
+    tag: "Paid Warfare & CAPI Attribution",
+    result: "ROAS 3.5X // -40% FTD Cost",
+    status: "SCALED",
+    quarter: "Q1-Q3 2025",
+    bottleneck: "Bloqueos recurrentes en Meta Ads, ceguera de atribución post-iOS 14.5 y costo por depósito inicial (FTD) superior a los $95 USD.",
+    solution: "Arquitectura de contingencia multi-cuenta con calentamiento automatizado, puente de atribución server-side CAPI hacia BigQuery y creativos de alta curiosidad con cumplimiento regulatorio estricto.",
+    metrics: [
+      "Retorno sobre Gasto Publicitario (ROAS): 3.5X sostenido",
+      "Reducción del Costo por Primer Depósito (FTD): -40%",
+      "Tasa de conversión en página de registro: +68%",
+      "Tiempo de vida de cuenta publicitaria: 12 meses sin interrupción"
+    ]
+  },
+  {
+    id: "LOG_02",
+    client: "DELFI AUSED",
+    category: "Creator Economy / High-Volume YouTube",
+    tag: "YouTube Ops & Retention Engineering",
+    result: "+45% Retención // 12.5% CTR",
+    status: "AUDITED",
+    quarter: "Q4 2024 - Q2 2025",
+    bottleneck: "Estancamiento en 15,000 vistas promedio por video con una caída del 70% de la audiencia en los primeros 30 segundos y CTR inferior al 4%.",
+    solution: "Reingeniería completa del empaquetado: estructura de gancho en los primeros 5 segundos sin introducciones lentas, edición basada en micro-recompensas de dopamina y miniaturas de alto contraste orientadas a caras.",
+    metrics: [
+      "Retención promedio de visualización: Aumentó del 28% al 52% (+45% neto)",
+      "Tasa de clics en miniaturas (CTR): 12.5% sostenido en primeras 48hs",
+      "Vistas orgánicas por video: Escalaron de 15k a 120k+ promedio",
+      "Nuevos suscriptores mensuales: +18,500 orgánicos"
+    ]
+  },
+  {
+    id: "LOG_03",
+    client: "COINARY LTD",
+    category: "Web3 / Crypto Ecosystems",
+    tag: "High-Ticket Funnels & Community Scale",
+    result: "200k+ Comunidad // Token Sold Out",
+    status: "SCALED",
+    quarter: "Q2-Q4 2024",
+    bottleneck: "Lanzamiento de activo digital en fase de mercado bajista con escepticismo de la comunidad y nula conversión en canales tradicionales.",
+    solution: "Embudo táctico de contenido educativo de alta retención en YouTube, segmentación hiper-específica en Meta hacia usuarios de Web3 y canal privado de Telegram con onboarding automatizado.",
+    metrics: [
+      "Comunidad activa verificada: Más de 200,000 miembros en Telegram/Discord",
+      "Fase de preventa de token: Sold Out completo en 48 horas",
+      "Costo por usuario registrado en whitelist: < $1.20 USD",
+      "Tasa de apertura en transmisiones en vivo de lanzamiento: 82%"
+    ]
+  },
+  {
+    id: "LOG_04",
+    client: "MIX ON TV",
+    category: "Live Media & Event Streaming",
+    tag: "Live Infrastructure & Multi-Channel Distribution",
+    result: "100k Concurrentes // 20M+ Impr.",
+    status: "AUDITED",
+    quarter: "Q1-Q4 2025",
+    bottleneck: "Eventos en vivo masivos de streaming con alta tasa de latencia y fuga de retención hacia plataformas competidoras.",
+    solution: "Campaña de expectativa militar en YouTube Shorts y TikTok, cluster de distribución multi-servidor y re-empaquetado de clips en tiempo real durante la transmisión en vivo.",
+    metrics: [
+      "Pico de espectadores concurrentes en vivo: 100,000 simultáneos",
+      "Impresiones totales generadas en la campaña: 20,000,000+",
+      "Crecimiento de canal en semana del evento: +45,000 suscriptores",
+      "ROI generado en patrocinadores de evento: 4.2X"
+    ]
+  }
 ];
 
-export const Logs: React.FC = () => {
+export const Logs: React.FC<LogsProps> = ({ setPage }) => {
   const { t } = useTranslation();
+  const [activeDossier, setActiveDossier] = useState<string | null>("LOG_01");
+
+  const toggleDossier = (id: string) => {
+    setActiveDossier((prev) => (prev === id ? null : id));
+  };
 
   return (
-    <div className="container mx-auto px-6 md:px-12 pt-32 pb-20">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-16 text-center"
-      >
-        <h1 className="text-5xl md:text-7xl font-['Space_Grotesk'] font-bold text-white uppercase mb-2">{t('mission_logs')}</h1>
-        <p className="text-gray-500 font-mono text-sm">{t('verified_results')}</p>
-      </motion.div>
-
-      {/* Case Grid */}
-      <div className="grid grid-cols-1 gap-0 border-t border-white/10">
-        {cases.map((item, index) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="group relative border-b border-white/10 bg-[#050505] hover:bg-[#0a0a0a] transition-colors p-8 md:p-12 cursor-pointer overflow-hidden"
-            data-hover="true"
-          >
-            <div className="flex flex-col md:flex-row items-baseline justify-between gap-6 relative z-10">
-
-              {/* Left Info */}
-              <div className="flex-1">
-                <h3 className="text-3xl md:text-4xl font-['Space_Grotesk'] font-bold text-white group-hover:text-[#FF5F00] transition-colors uppercase">
-                  {item.client}
-                </h3>
-                <p className="text-[#FF5F00] font-mono text-sm mt-1">{item.tag}</p>
-              </div>
-
-              {/* Middle Metric */}
-              <div className="flex-1 md:text-center">
-                <span className="text-xs text-gray-500 font-mono block mb-1">{t('objective')}</span>
-                <span className="text-white font-bold text-lg">{item.result}</span>
-              </div>
-
-              {/* Right Status */}
-              <div className="flex-1 md:text-right">
-                <span className="text-xs text-gray-500 font-mono block mb-1">{t('status')}</span>
-                <span className={`inline-block px-2 py-1 text-xs font-bold text-black ${index === 2 ? 'bg-[#FF5F00]' : 'bg-[#10B981]'}`}>
-                  {index === 2 ? 'Ongoing' : 'Success'}
-                </span>
-              </div>
-            </div>
-
-            {/* Hover Image Reveal */}
-            <div className="absolute right-0 top-0 h-full w-1/3 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none mix-blend-screen">
-              <img src={item.image} alt={item.client} className="h-full w-full object-cover grayscale" />
-            </div>
-
-            <div className="absolute top-1/2 right-12 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-10 group-hover:translate-x-0">
-              <span className="font-mono text-white text-xs border border-white/20 px-4 py-2">{t('access_file')}</span>
-            </div>
-          </motion.div>
-        ))}
+    <div className="container mx-auto px-6 md:px-12 pt-28 pb-24 min-h-[100dvh]">
+      {/* Header */}
+      <div className="max-w-4xl mb-16">
+        <div className="text-sm font-bold text-[#FF5F00] uppercase mb-4">
+          // AUDITORÍAS DE CAMPO // VERIFIED DOSSIERS
+        </div>
+        <h1 className="text-5xl sm:text-7xl font-['Space_Grotesk'] font-black text-white uppercase tracking-tight mb-6">
+          {t('mission_logs')}
+        </h1>
+        <p className="text-zinc-400 font-['Inter'] text-lg sm:text-xl leading-relaxed max-w-3xl">
+          {t('verified_results')}
+        </p>
       </div>
 
-      <div className="mt-24">
-        <h3 className="text-white text-3xl font-['Space_Grotesk'] font-bold text-center mb-12 uppercase">{t('recent_deployments')}</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map(n => (
-            <div key={n} className="aspect-square bg-[#111] relative group overflow-hidden border border-white/5">
-              <img src={`https://picsum.photos/400/400?grayscale&random=${n + 10}`} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" alt="Gallery" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-              <div className="absolute bottom-4 left-4">
-                <p className="text-white font-bold font-['Space_Grotesk'] uppercase text-lg">{cases[n - 1]?.client || "CONFIDENTIAL"}</p>
-                <p className="text-gray-500 text-xs font-mono">Status: {n === 4 ? 'Live' : n === 3 ? 'Secured' : n === 2 ? 'Scaled' : 'Viral'}</p>
+      {/* Case Studies Dossier List */}
+      <div className="space-y-4">
+        {verifiedCases.map((item) => {
+          const isOpen = activeDossier === item.id;
+          return (
+            <div
+              key={item.id}
+              className="bg-[#0A0A0A] transition-colors"
+            >
+              {/* Row Header */}
+              <div
+                onClick={() => toggleDossier(item.id)}
+                className="p-6 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 cursor-pointer hover:bg-[#111111]"
+              >
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <code className="text-[#FF5F00] text-xs font-bold">
+                      {item.id}
+                    </code>
+                    <code className="text-zinc-600 text-xs">
+                      {item.quarter}
+                    </code>
+                    <code className="px-2 py-0.5 text-[10px] uppercase bg-[#FF5F00]/15 text-[#FF5F00]">
+                      {item.status}
+                    </code>
+                  </div>
+                  <h2 className="text-2xl sm:text-4xl font-['Space_Grotesk'] font-bold text-white uppercase tracking-tight">
+                    {item.client}
+                  </h2>
+                  <p className="text-zinc-400 font-['Inter'] text-sm mt-1">
+                    {item.category} // {item.tag}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-8 self-stretch md:self-auto justify-between md:justify-end">
+                  <div className="text-left md:text-right">
+                    <span className="text-xs text-zinc-500 block mb-1">
+                      MÉTRICA VALIDADA
+                    </span>
+                    <span className="text-white font-['Space_Grotesk'] text-lg sm:text-xl font-bold">
+                      {item.result}
+                    </span>
+                  </div>
+
+                  <button
+                    className="flex items-center gap-2 text-xs uppercase text-[#FF5F00] px-4 py-2.5 bg-black/40 hover:bg-[#FF5F00] hover:text-black transition-colors"
+                    aria-expanded={isOpen}
+                  >
+                    <span>{isOpen ? t('close_file') : t('access_file')}</span>
+                    {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  </button>
+                </div>
               </div>
+
+              {/* Expandable Dossier Content */}
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    data-ui="true"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden bg-[#050505]"
+                  >
+                    <div className="p-8 md:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      {/* Bottleneck */}
+                      <div className="lg:col-span-4 bg-[#0A0A0A] p-6">
+                        <span className="text-xs text-red-400 font-bold block mb-2">
+                          <code>[ CUELLO DE BOTELLA INICIAL ]</code>
+                        </span>
+                        <p className="text-zinc-300 font-['Inter'] text-sm leading-relaxed">
+                          {item.bottleneck}
+                        </p>
+                      </div>
+
+                      {/* Solution */}
+                      <div className="lg:col-span-4 bg-[#0A0A0A] p-6">
+                        <span className="text-xs text-[#FF5F00] font-bold block mb-2">
+                          <code>[ ARQUITECTURA TÁCTICA ZEROED ]</code>
+                        </span>
+                        <p className="text-zinc-300 font-['Inter'] text-sm leading-relaxed">
+                          {item.solution}
+                        </p>
+                      </div>
+
+                      {/* Validated Metrics */}
+                      <div className="lg:col-span-4 bg-[#0A0A0A] p-6">
+                        <span className="text-xs text-emerald-400 font-bold block mb-3 flex items-center gap-2">
+                          <ShieldCheck size={16} />
+                          <code>[ MÉTRICAS AUDITADAS ]</code>
+                        </span>
+                        <ul className="space-y-2.5 font-['Inter'] text-xs sm:text-sm text-zinc-300">
+                          {item.metrics.map((metric, mIdx) => (
+                            <li key={mIdx} className="flex items-start gap-2">
+                              <span className="text-[#FF5F00] shrink-0 font-bold">›</span>
+                              <span>{metric}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          ))}
+          );
+        })}
+      </div>
+
+      {/* Action Banner */}
+      <div className="mt-20 p-8 md:p-14 bg-[#0A0A0A] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 className="text-2xl sm:text-3xl font-['Space_Grotesk'] font-bold text-white uppercase mb-2">
+            ¿Listo para auditar tu operación?
+          </h3>
+          <p className="text-zinc-400 font-['Inter'] text-sm max-w-xl">
+            Auditamos tu tasa de retención o retorno de pauta publicitaria en un informe forense directo.
+          </p>
         </div>
-        <div className="mt-12 text-center">
-          <button className="bg-[#FF5F00] text-black font-bold px-12 py-4 uppercase tracking-widest hover:bg-white transition-colors" data-hover="true">
-            {t('view_all_logs')}
-          </button>
-        </div>
+        <button
+          onClick={() => setPage(Page.INITIATE)}
+          className="bg-[#FF5F00] hover:bg-white text-black font-['Space_Grotesk'] font-bold text-sm px-8 py-4 uppercase transition-colors active:scale-95 cursor-pointer whitespace-nowrap"
+        >
+          {t('view_all_logs')}
+        </button>
       </div>
     </div>
   );

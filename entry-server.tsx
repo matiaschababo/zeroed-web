@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
-import './i18n'; // Initialize i18n
+import './i18n';
 
 export function render() {
     const helmetContext: any = {};

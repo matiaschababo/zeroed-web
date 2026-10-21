@@ -2,4 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://zeroedgrowth.com/sitemap.xml
-Sitemap: https://zeroedgrowth.com/llms.txt
