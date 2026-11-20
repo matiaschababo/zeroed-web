@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Page, NavItem } from '../types';
 import { useTranslation } from 'react-i18next';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { Menu, X, ArrowRight } from 'lucide-react';
 
 interface HeaderProps {
@@ -39,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({ activePage, setPage }) => {
             onClick={() => handleNavClick(Page.HOME)}
             className="flex items-center gap-2 group text-left cursor-pointer"
             data-hover="true"
-            aria-label="Zeroed Home"
+            aria-label="Ir al inicio de Zeroed"
           >
             <span className="font-['Space_Grotesk'] font-bold text-2xl tracking-tighter text-white group-hover:text-[#FF5F00] transition-colors duration-150">
               ZEROED<span className="text-[#FF5F00]">.</span>
@@ -47,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({ activePage, setPage }) => {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
+          <nav className="hidden md:flex items-center gap-8" aria-label="Navegación principal">
             {navItems.map((item) => {
               const isActive = activePage === item.id;
               return (
@@ -67,7 +66,6 @@ export const Header: React.FC<HeaderProps> = ({ activePage, setPage }) => {
 
           {/* Desktop CTA & Language Switcher */}
           <div className="hidden md:flex items-center gap-5">
-            <LanguageSwitcher />
             <button
               onClick={() => handleNavClick(Page.INITIATE)}
               className="bg-[#FF5F00] hover:bg-white text-black font-['Space_Grotesk'] font-bold text-xs px-5 py-2.5 uppercase transition-colors duration-150 active:scale-95 cursor-pointer"
@@ -83,7 +81,7 @@ export const Header: React.FC<HeaderProps> = ({ activePage, setPage }) => {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="w-11 h-11 flex items-center justify-center text-white bg-white/5 active:scale-95 transition-transform cursor-pointer"
-              aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
+              aria-label={mobileMenuOpen ? "Cerrar navegación" : "Abrir navegación"}
               data-hover="true"
             >
               {mobileMenuOpen ? <X size={20} className="text-[#FF5F00]" /> : <Menu size={20} />}
