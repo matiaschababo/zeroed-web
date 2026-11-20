@@ -1,3 +1,11 @@
+# Zeroed — web
+
+> **Posicionamiento vigente (20/11/2026):** Zeroed es una plataforma de conocimiento y autoridad en **español**, protagonizada por Matías Chababo. Su propósito es que las personas conozcan quién es, qué sabe, cómo piensa y qué ha construido. Las oportunidades de consultoría o colaboración surgen de esa relación.
+
+**Documento de implementación:** [Reposicionamiento y QA](docs/REPOSICIONAMIENTO-ZEROED-ES-2026-11-20.md). Fuente de verdad: [zeroed-growth](https://github.com/matiaschababo/zeroed-growth). **No desplegar cambios parciales de reposicionamiento sin QA.**
+
+---
+
 <div align="center">
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
