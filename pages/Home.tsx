@@ -29,22 +29,22 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
         
         {/* 2-line Headline, Massive Space Grotesk */}
         <h1 className="text-5xl sm:text-7xl lg:text-[7.5vw] font-['Space_Grotesk'] font-black tracking-tighter leading-[0.9] text-white uppercase mb-6">
-          PRECISION<br />OVER NOISE
+          LO QUE SÉ.<br />LO QUE CONSTRUYO.
         </h1>
 
         {/* Plain words directly under the headline (answers what it is, for whom) */}
         <p className="text-xl sm:text-2xl text-white font-['Inter'] leading-relaxed max-w-[55ch] mb-8 font-normal">
-          Consultoría y operaciones de crecimiento táctico para creadores de alto volumen y marcas en verticales de alta fricción.
+          Soy Matías Chababo. Zeroed es mi espacio para compartir lo que aprendo y construyo en marketing, medios, automatización con IA y negocios. Proyectos reales, decisiones y aprendizajes explicados desde adentro.
         </p>
 
         {/* Primary Action Button prominently visible in the first viewport */}
         <div className="flex flex-wrap items-center gap-4 mb-12">
           <button
-            onClick={() => setPage(Page.INITIATE)}
+            onClick={() => setPage(Page.LOGS)}
             className="h-12 min-h-[48px] bg-[#FF5F00] hover:bg-white text-black text-sm px-8 font-bold font-['Space_Grotesk'] uppercase transition-colors duration-150 active:scale-95 cursor-pointer flex items-center gap-3"
             data-hover="true"
           >
-            <span>{t('get_zeroed')}</span>
+            <span>Conocé mi trabajo</span>
             <ArrowRight size={18} />
           </button>
           <button
@@ -52,7 +52,7 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
             className="h-12 min-h-[48px] bg-[#0A0A0A] hover:bg-[#161616] text-white text-sm px-8 font-bold font-['Space_Grotesk'] uppercase transition-colors duration-150 active:scale-95 cursor-pointer border border-white/10"
             data-hover="true"
           >
-            <span>Ver Protocolos</span>
+            <span>Explorá mis conocimientos</span>
           </button>
         </div>
 
@@ -90,7 +90,7 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
               className="p-8 bg-[#050505]"
             >
               <h3 className="font-['Space_Grotesk'] text-white text-xl font-bold uppercase mb-3">
-                Creative Fatigue
+                Desafíos creativos
               </h3>
               <p className="text-zinc-400 font-['Inter'] text-sm leading-relaxed max-w-[50ch]">
                 {t('analysis_content')}
@@ -105,7 +105,7 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
               className="p-8 bg-[#050505]"
             >
               <h3 className="font-['Space_Grotesk'] text-white text-xl font-bold uppercase mb-3">
-                Blind Pixel Tracking
+                Medición y atribución
               </h3>
               <p className="text-zinc-400 font-['Inter'] text-sm leading-relaxed max-w-[50ch]">
                 {t('analysis_ads')}
@@ -120,7 +120,7 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
               className="p-8 bg-[#0E0A05]"
             >
               <h3 className="font-['Space_Grotesk'] text-[#FF5F00] text-xl font-bold uppercase mb-3">
-                The Zeroed Protocol
+                Criterio y sistemas
               </h3>
               <p className="text-zinc-300 font-['Inter'] text-sm leading-relaxed max-w-[50ch]">
                 {t('fixing_signal')} Re-engineering retention and deploying server-side attribution.
@@ -141,7 +141,7 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
             </div>
             <div className="lg:col-span-6 space-y-4">
               <span className="text-[#FF5F00] text-xs font-bold uppercase block">
-                Control Room Telemetry // Cero Ruido
+                Experiencia y decisiones // Zeroed
               </span>
               <p className="text-white font-['Space_Grotesk'] text-xl sm:text-2xl font-bold uppercase tracking-tight">
                 {t('market_ignores_noise')}
@@ -168,7 +168,7 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
           <div className="pb-6 mb-8 flex justify-between items-start">
             <div>
               <span className="text-[#FF5F00] text-xs font-semibold block mb-2">
-                LIVE DIAGNOSTIC TOOL
+                SIMULACIÓN EXPLORATORIA
               </span>
               <h2 className="text-2xl sm:text-3xl font-['Space_Grotesk'] font-bold text-white uppercase">
                 {t('calculator.title')}
