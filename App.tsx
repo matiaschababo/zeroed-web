@@ -93,8 +93,8 @@ export const App: React.FC = () => {
         return (
           <>
             <SEO
-              title="Operaciones Tácticas"
-              description="Unidades de YouTube Visual Ops, Guerra Pagada, Infraestructura de Datos y Fractional CMO."
+              title="Conocimientos y experiencia"
+              description="Marketing, sistemas con IA, medios, producción y negocios desde la experiencia de Matías Chababo."
               url="https://zeroedgrowth.com/ops"
             />
             <Ops setPage={navigateTo} />
@@ -104,8 +104,8 @@ export const App: React.FC = () => {
         return (
           <>
             <SEO
-              title="Expedientes de Misión"
-              description="Casos de estudio y métricas auditadas en Betbits Casino, Delfi Aused, Coinary y Mix On TV."
+              title="Proyectos y aprendizajes"
+              description="Experiencias, proyectos y decisiones de Matías Chababo. Participación y cifras documentadas caso por caso."
               url="https://zeroedgrowth.com/logs"
             />
             <Logs setPage={navigateTo} />
@@ -115,8 +115,8 @@ export const App: React.FC = () => {
         return (
           <>
             <SEO
-              title="División de I+D"
-              description="Tecnología propietaria: Zeroed Attribution Bridge v2.0 y Algorithmic Retention Lab."
+              title="Sistemas y experimentos"
+              description="Arquitecturas y experimentos con datos, marketing, medios y automatización con IA."
               url="https://zeroedgrowth.com/lab"
             />
             <Lab setPage={navigateTo} />
@@ -126,8 +126,8 @@ export const App: React.FC = () => {
         return (
           <>
             <SEO
-              title="Iniciar Protocolo"
-              description="Solicitud de auditoría y onboarding para marcas de alto riesgo y creadores de gran escala."
+              title="Contacto"
+              description="Contacto con Matías Chababo para conversaciones, proyectos y colaboraciones."
               url="https://zeroedgrowth.com/initiate"
             />
             <Initiate />
@@ -205,7 +205,7 @@ export const App: React.FC = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 text-xs text-zinc-600">
-              <p>PRECISION OVER NOISE // ALL RIGHTS RESERVED</p>
+              <p>ZEROED · MATÍAS CHABABO · TODOS LOS DERECHOS RESERVADOS</p>
               <div className="flex gap-6">
                 <button onClick={() => navigateTo(Page.OPS)} className="hover:text-white transition-colors cursor-pointer">
                   OPS
@@ -224,7 +224,7 @@ export const App: React.FC = () => {
 
             {/* Visuals Attribution Credits */}
             <p className="text-[11px] text-zinc-700 text-center sm:text-left pt-2">
-              Visuals: NASA Launch Vehicle Telemetry Center (CC0 via Rawpixel) & Satellite Configuration (Public Domain via Wikimedia Commons).
+              Créditos visuales: NASA (CC0, vía Rawpixel) y Wikimedia Commons (dominio público).
             </p>
           </div>
         </footer>

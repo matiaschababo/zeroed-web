@@ -10,13 +10,13 @@ interface SEOProps {
 }
 
 export const SEO: React.FC<SEOProps> = ({
-    title = "ZEROED | Precision Growth",
-    description = "High-end ultra-precision growth agency. We deploy tactical digital strategies for high-risk verticals.",
+    title = "Zeroed | Matías Chababo",
+    description = "Zeroed es el espacio de Matías Chababo para compartir conocimientos, proyectos y aprendizajes sobre marketing, IA, medios, streaming y negocios.",
     image = "https://zeroedgrowth.com/og-image.png",
     url = "https://zeroedgrowth.com",
     type = "website"
 }) => {
-    const siteTitle = title === "ZEROED | Precision Growth" ? title : `${title} | ZEROED`;
+    const siteTitle = title === "Zeroed | Matías Chababo" ? title : `${title} | ZEROED`;
 
     return (
         <Helmet>
@@ -43,15 +43,13 @@ export const SEO: React.FC<SEOProps> = ({
             <script type="application/ld+json">
                 {JSON.stringify({
                     "@context": "https://schema.org",
-                    "@type": "Organization",
-                    "name": "Zeroed Growth",
+                    "@type": "WebSite",
+                    "name": "Zeroed",
+                    "inLanguage": "es",
+                    "creator": { "@type": "Person", "name": "Matías Chababo" },
                     "url": "https://zeroedgrowth.com",
                     "logo": "https://zeroedgrowth.com/og-image.png",
-                    "description": "High-end ultra-precision growth agency. We deploy tactical digital strategies for high-risk verticals.",
-                    "sameAs": [
-                        "https://twitter.com/zeroedgrowth",
-                        "https://instagram.com/zeroedgrowth"
-                    ]
+                    "description": "Conocimientos y proyectos de Matías Chababo sobre marketing, sistemas, automatización con IA, medios y negocios.",
                 })}
             </script>
         </Helmet>
