@@ -1,7 +1,7 @@
 # Zeroed Web — reposicionamiento a español y marca del fundador
 
 **Decisión rectora:** ZG-007 · 20 de noviembre de 2026  
-**Fuente de verdad:** [matiaschababo/zeroed-growth/docs/POSICIONAMIENTO-ZEROED-ES-2026-11-20.md](https://github.com/matiaschababo/zeroed-growth/blob/strategy/zeroed-es-founder-led-20261120/docs/POSICIONAMIENTO-ZEROED-ES-2026-11-20.md)
+**Fuente de verdad:** [matiaschababo/zeroed-growth/docs/POSICIONAMIENTO-ZEROED-ES-2026-11-20.md](https://github.com/matiaschababo/zeroed-growth/blob/main/docs/POSICIONAMIENTO-ZEROED-ES-2026-11-20.md)
 
 ## Objetivo del sitio
 
