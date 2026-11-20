@@ -50,10 +50,6 @@ export const SEO: React.FC<SEOProps> = ({
                     "url": "https://zeroedgrowth.com",
                     "logo": "https://zeroedgrowth.com/og-image.png",
                     "description": "Conocimientos y proyectos de Matías Chababo sobre marketing, sistemas, automatización con IA, medios y negocios.",
-                    "sameAs": [
-                        "https://twitter.com/zeroedgrowth",
-                        "https://instagram.com/zeroedgrowth"
-                    ]
                 })}
             </script>
         </Helmet>
